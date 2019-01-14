@@ -1,6 +1,15 @@
 #ifndef IOPERAND_HPP
 #define IOPERAND_HPP
 
+ enum eOperandType
+{
+	Int8,
+	Int16,
+	Int32,
+	Float,
+	Double
+};
+
 class IOperand {
 
 	public:
