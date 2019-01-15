@@ -1,6 +1,6 @@
 NAME = avm
 
-SRCS = IOperand.cpp
+SRCS = Factory.cpp main.cpp
 
 
 OBJ = $(SRCS:.cpp=.o)

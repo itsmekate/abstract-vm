@@ -1,19 +1,33 @@
 #include "Factory.hpp"
+#include "Exception.hpp"
+
+Factory::Factory(){}
+Factory::~Factory(){}
 
 IOperand const * Factory::createInt8( std::string const & value ) const {
-	return new Operand(p, value, Int8);
+	// if (!Int8)
+		// throw Exception::notInt8();
+	return new Operand<char>(value, Int8, 0);
 }
 IOperand const * Factory::createInt16( std::string const & value ) const {
-	return new Operand(p, value, Int16);
+	// if (!Int16)
+		// throw Exception::notInt16();
+	return new Operand<short>(value, Int16, 0);
 }
 IOperand const * Factory::createInt32( std::string const & value ) const {
-	return new Operand(p, value, Int32);
+	// if (!Int32)
+		// throw Exception::notInt32();
+	return new Operand<int>(value, Int32, 0);
 }
 IOperand const * Factory::createFloat( std::string const & value ) const {
-	return new Operand(p, value, Float);
+	// if (!Float)
+		// throw Exception::notFloat();
+	return new Operand<float>(value, Float);
 }
 IOperand const * Factory::createDouble( std::string const & value ) const {
-	return new Operand(p, value, Double);
+	// if (!Double)
+		// throw Exception::notDouble();
+	return new Operand<double>(value, Double);
 }
 
 IOperand const * Factory::createOperand( eOperandType type, std::string const & value ) const
@@ -28,6 +42,7 @@ IOperand const * Factory::createOperand( eOperandType type, std::string const & 
 		return createFloat(value);
 	else if (type == Double)
 		return createDouble(value);
+	return 0;
 }
 
 Factory::Factory(Factory const & rhs)

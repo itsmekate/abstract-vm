@@ -1,8 +1,13 @@
+#ifndef FACTORY_HPP
+#define FACTORY_HPP
+
+#include "Operand.hpp"
+
 class Factory
 {
 public:
 	Factory();
-	~virtual Factory();
+	virtual ~Factory();
 	Factory(Factory const & rhs);
 	Factory			&operator=( Factory const &rhs);
 
@@ -15,4 +20,6 @@ private:
 	IOperand const * createInt32( std::string const & value ) const;
 	IOperand const * createFloat( std::string const & value ) const;
 	IOperand const * createDouble( std::string const & value ) const;
-}
+};
+
+#endif

@@ -1,24 +1,8 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <iostream>
-
-#include "IOperand.hpp"
+#include "Factory.hpp"
 
 int main()
 {
-	enum eOperandType {Int8, Int16, Int32, Float, Double};
-	
-	eOperandType type = Int8;
+	Factory f = Factory();
+	const IOperand * o = f.createOperand(Int8, ".2424");
+	std::cout << o->getPrecision() << "\n";
 }
-
-// #ifndef ENUM_H
-// #define ENUM_H
-// enum eOperandType
-// {
-//     Int8,
-//     Int16,
-//     Int32,
-//     Float,
-//     Double
-// };
-// #endif
