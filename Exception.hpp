@@ -1,17 +1,36 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
+#include <string>
 
-class Exception {
+class notInt8 : public std::exception
+{
+public:
+	const char *what() const throw();
+};
 
-	public:
-		std::string notInt8();
-		std::string notInt16();
-		std::string notInt32();
-		std::string notFloat();
-		std::string notDouble();
+class notInt16 : public std::exception
+{
+public:
+	const char *what() const throw();
 
-	private:
+};
 
+class notInt32 : public std::exception
+{
+public:
+	const char *what() const throw();
+};
+
+class notFloat : public std::exception
+{
+public:
+	const char *what() const throw();
+};
+
+class notDouble : public std::exception
+{
+public:
+	const char *what() const throw();
 };
 
 #endif
