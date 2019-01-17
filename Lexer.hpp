@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <regex>
 
 class Lexer
 {
@@ -13,8 +14,10 @@ class Lexer
 
     std::vector<std::string> getFile();
 
-//    std::vector<std::string> readFromStdin();
-    std::vector<std::string> readFromFile(char *argv);
+    void readFromStdin();
+    void readFromFile(char *argv);
+    
+    int checkLine(std::string str);
 
     private:
         std::vector<std::string> file;
