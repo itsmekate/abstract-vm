@@ -24,3 +24,8 @@ const char *notDouble::what() const throw()
 {
     return "not a Double value";
 }
+
+const char *divisionByZero::what() const throw()
+{
+    return "Division by Zero exception";
+}

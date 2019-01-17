@@ -3,6 +3,7 @@
 
 #include "IOperand.hpp"
 #include "Factory.hpp"
+#include "Exception.hpp"
 
 template <typename T>
 
@@ -27,7 +28,7 @@ class Operand : public IOperand
 		std::string const & toString( void ) const {
 			return value;
 		}
-		int	getPrecision( void ) const {
+		int getPrecision( void ) const {
 			return Precision;
 		}
 		eOperandType getType( void ) const {
@@ -36,62 +37,70 @@ class Operand : public IOperand
 
 		IOperand const * operator+( IOperand const & rhs ) const {
 			try {
-				double res = stod(rhs.toString()) + stod(value);
-				eOperandType t = (rhs.getType() < this->getType()) ? rhs.getType() : this->getType();
+				double res = stod(value) + stod(rhs.toString());
+				eOperandType t = (rhs.getType() >= this->getType()) ? rhs.getType() : this->getType();
 				return Factory().createOperand(t, std::to_string(res));
 			}
 			catch (std::exception &e) {
 				std::cout << e.what() << '\n';
 			}
+			return 0;
 		}
-		Operand const * operator-( Operand const & rhs ){
+		IOperand const * operator-( IOperand const & rhs ) const{
 			try
 			{
-				double res = stod(rhs.toString()) - stod(value);
-				eOperandType t = (rhs.getType() < this->getType()) ? rhs.getType() : this->getType();
+				double res = stod(value) - stod(rhs.toString());
+				eOperandType t = (rhs.getType() >= this->getType()) ? rhs.getType() : this->getType();
 				return Factory().createOperand(t, std::to_string(res));
 			}
 			catch (std::exception& e)
 			{
 				std::cout << e.what() << '\n';
 			}
+			return 0;
 		}
-		Operand const * operator*( Operand const & rhs ){
+		IOperand const * operator*( IOperand const & rhs ) const{
 			try
 			{
-				double res = stod(rhs.toString()) * stod(value);
-				eOperandType t = (rhs.getType() < this->getType()) ? rhs.getType() : this->getType();
+				double res = stod(value) * stod(rhs.toString());
+				eOperandType t = (rhs.getType() >= this->getType()) ? rhs.getType() : this->getType();
 				return Factory().createOperand(t, std::to_string(res));
 			}
 			catch (std::exception& e)
 			{
 				std::cout << e.what() << '\n';
 			}
-
+			return 0;
 		}
-		Operand const * operator/( Operand const & rhs ){
+		IOperand const * operator/( IOperand const & rhs ) const{
 			try
 			{
-				double res = stod(rhs.toString()) / stod(value);
-				eOperandType t = (rhs.getType() < this->getType()) ? rhs.getType() : this->getType();
+				if (stod(rhs.toString()) == 0)
+					throw divisionByZero();
+				double res =  stod(value) / stod(rhs.toString());
+				eOperandType t = (rhs.getType() >= this->getType()) ? rhs.getType() : this->getType();
 				return Factory().createOperand(t, std::to_string(res));
 			}
 			catch (std::exception& e)
 			{
 				std::cout << e.what() << '\n';
 			}
+			return 0;
 		}
-		Operand const * operator%( Operand const & rhs ){
+		IOperand const * operator%( IOperand const & rhs ) const{
 			try
 			{
-				double res = stod(rhs.toString()) % stod(value);
-				eOperandType t = (rhs.getType() < this->getType()) ? rhs.getType() : this->getType();
+				if (stod(rhs.toString()) == 0)
+					throw divisionByZero();
+				double res = stoi(value) % stoi(rhs.toString());
+				eOperandType t = (rhs.getType() >= this->getType()) ? rhs.getType() : this->getType();
 				return Factory().createOperand(t, std::to_string(res));
 			}
 			catch (std::exception& e)
 			{
 				std::cout << e.what() << '\n';
 			}
+			return 0;
 		}
 
 	private:

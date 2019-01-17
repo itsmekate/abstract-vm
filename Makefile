@@ -1,7 +1,9 @@
 NAME = avm
 
-SRCS = Factory.cpp main.cpp
-
+SRCS = main.cpp \
+Factory.cpp \
+Lexer.cpp \
+Exception.cpp \
 
 OBJ = $(SRCS:.cpp=.o)
 
@@ -10,7 +12,7 @@ CPPFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME):
-	clang++ $(CPPFLAGS) $(SRCS) -lncurses -o $(NAME)
+	clang++ -std=c++11 $(CPPFLAGS) $(SRCS) -lncurses -o $(NAME)
 
 clean:
 	rm -f $(OBJ)

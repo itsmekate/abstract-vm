@@ -33,4 +33,12 @@ public:
 	const char *what() const throw();
 };
 
+class divisionByZero : public std::exception
+{
+public:
+	const char *what() const throw();
+};
+
+//exception for underflow TO DO!
+
 #endif
