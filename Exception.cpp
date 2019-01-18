@@ -29,3 +29,8 @@ const char *divisionByZero::what() const throw()
 {
     return "Division by Zero exception";
 }
+
+const char *lexicalError::what() const throw()
+{
+    return "Lexical Error:";
+}
