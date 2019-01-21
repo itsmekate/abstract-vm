@@ -1,5 +1,6 @@
 #include "Operand.hpp"
 #include "Lexer.hpp"
+#include "Parser.hpp"
 
 int main(int argc, char **argv)
 {
@@ -9,10 +10,11 @@ int main(int argc, char **argv)
         l.readFromFile(argv[1]);
     else
         l.readFromStdin();
-    file = l.getFile();
-    std::cout << "Here goes vector\n";
-    for (std::vector<std::string>::const_iterator i = file.begin(); i != file.end(); ++i)
-        std::cout << *i << std::endl;
+    Parser(l.getFile());
+//    file = l.getFile();
+//    std::cout << "Here goes vector\n";
+//    for (std::vector<std::string>::const_iterator i = file.begin(); i != file.end(); ++i)
+//        std::cout << *i << std::endl;
 //	Factory f = Factory();
 //	const IOperand * o = f.createOperand(Int8, "24");
 //	const IOperand * z = f.createOperand(Double, "56");

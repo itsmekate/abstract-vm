@@ -1,36 +1,25 @@
 #include "Exception.hpp"
 
-const char *notInt8::what() const throw()
+const char *wrongValue::what() const throw()
 {
-    return "not an Int8 value";
-}
-
-const char *notInt16::what() const throw()
-{
-    return "not an Int16 value";
-}
-
-const char *notInt32::what() const throw()
-{
-    return "not an Int32 value";
-}
-
-const char *notFloat::what() const throw()
-{
-    return "not a Float value";
-}
-
-const char *notDouble::what() const throw()
-{
-    return "not a Double value";
+    return "Value is incorrect";
 }
 
 const char *divisionByZero::what() const throw()
 {
     return "Division by Zero exception";
 }
-
-const char *lexicalError::what() const throw()
+//
+//const char *lexicalError::what() const throw()
+//{
+//    return "Lexical Error:";
+//}
+const char *noExit::what() const throw()
 {
-    return "Lexical Error:";
+    return "No Exit Statement";
+}
+
+const char *incorrectInput::what() const throw()
+{
+    return "Wrong input arguments";
 }

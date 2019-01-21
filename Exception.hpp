@@ -2,32 +2,7 @@
 #define EXCEPTION_HPP
 #include <string>
 
-class notInt8 : public std::exception
-{
-public:
-	const char *what() const throw();
-};
-
-class notInt16 : public std::exception
-{
-public:
-	const char *what() const throw();
-
-};
-
-class notInt32 : public std::exception
-{
-public:
-	const char *what() const throw();
-};
-
-class notFloat : public std::exception
-{
-public:
-	const char *what() const throw();
-};
-
-class notDouble : public std::exception
+class wrongValue : public std::exception
 {
 public:
 	const char *what() const throw();
@@ -39,12 +14,16 @@ public:
 	const char *what() const throw();
 };
 
-class lexicalError : public std::exception
+class noExit : public std::exception
 {
 public:
 	const char *what() const throw();
 };
 
-//exception for underflow TO DO!
+class incorrectInput : public std::exception
+{
+public:
+	const char *what() const throw();
+};
 
 #endif

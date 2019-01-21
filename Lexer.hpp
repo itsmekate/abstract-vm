@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <regex>
+#include<map>
 
 class Lexer
 {
@@ -12,7 +13,7 @@ class Lexer
         Lexer();
         ~Lexer();
 
-    std::vector<std::string> getFile();
+    std::vector<std::map<std::string, std::string>> getFile();
     std::vector<std::string> getErrors();
 
     void readFromStdin();
@@ -21,11 +22,14 @@ class Lexer
     int checkLine(std::string str, int i);
 
     private:
-        std::vector<std::string> file;
+
+        std::vector<std::map<std::string, std::string>> file;
         std::vector<std::string> errors;
+        std::smatch match;
 
         std::regex instrNoValue;
         std::regex instrValue;
+        std::regex instrValueDF;
         std::regex comment;
         std::regex emptyStr;
 };
