@@ -20,10 +20,23 @@ public:
 	const char *what() const throw();
 };
 
-class incorrectInput : public std::exception
+class stackTooSmall : public std::exception
 {
 public:
-	const char *what() const throw();
+    const char *what() const throw();
 };
+
+class AssertError : public std::exception
+{
+public:
+    const char *what() const throw();
+};
+
+
+//class incorrectInput : public std::exception
+//{
+//public:
+//	const char *what() const throw();
+//};
 
 #endif
