@@ -1,20 +1,20 @@
 NAME = avm
 
-SRCS = main.cpp \
-Factory.cpp \
-Lexer.cpp \
-Parser.cpp \
-Exception.cpp \
-Executor.cpp \
+SRCS = src/main.cpp \
+src/Factory.cpp \
+src/Lexer.cpp \
+src/Parser.cpp \
+src/Exception.cpp \
+src/Executor.cpp \
 
 OBJ = $(SRCS:.cpp=.o)
 
-CPPFLAGS = -Wall -Wextra -Werror
+CPPFLAGS = -std=c++11 -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME):
-	clang++ -std=c++11 $(CPPFLAGS) $(SRCS) -lncurses -o $(NAME)
+	clang++ $(CPPFLAGS) $(SRCS) -o $(NAME) -I inc
 
 clean:
 	rm -f $(OBJ)
@@ -24,6 +24,5 @@ fclean: clean
 
 re: fclean all
 
-%.o: %.cpp
-	clang++ $(FLAGS) -o $@ -c $<
-
+#%.o: %.cpp:
+#	clang++ $(CPPFLAGS) -c $< -o $@
