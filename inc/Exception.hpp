@@ -32,10 +32,16 @@ public:
     const char *what() const throw();
 };
 
-//class incorrectInput : public std::exception
-//{
-//public:
-//	const char *what() const throw();
-//};
+class incorrectInput : public std::exception
+{
+public:
+	const char *what() const throw();
+};
+
+class lexicalError : public std::exception
+{
+public:
+	const char *what() const throw();
+};
 
 #endif

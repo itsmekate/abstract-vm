@@ -2,6 +2,7 @@
 #define EXECUTOR_HPP
 
 #include <vector>
+#include <iomanip>
 #include "IOperand.hpp"
 #include "Operand.hpp"
 #include "Lexer.hpp"

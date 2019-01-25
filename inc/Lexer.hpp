@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <regex>
-#include<map>
+#include <map>
 
 class Lexer
 {
@@ -16,7 +16,7 @@ class Lexer
         Lexer			&operator=( Lexer const &rhs);
 
         std::vector<std::map<std::string, std::string>> getFile();
-//        std::vector<std::string> getErrors();
+        std::vector<std::string> getErrors();
 
         void readFromStdin();
         void readFromFile(char *argv);

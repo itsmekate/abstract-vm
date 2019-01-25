@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include<map>
+#include <map>
 class Parser {
 
     public:

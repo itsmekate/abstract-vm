@@ -1,14 +1,13 @@
-#include "Factory.hpp"
-#include "Exception.hpp"
-#include "Operand.hpp"
-
+#include "../inc/Factory.hpp"
+#include "../inc/Exception.hpp"
+#include "../inc/Operand.hpp"
 #include<limits.h>
 
 Factory::Factory(){}
 Factory::~Factory(){}
 
 IOperand const * Factory::createInt8( std::string const & value ) const {
-    return new Operand<char>(value, Int8, 0);
+    return new Operand<signed char>(value, Int8, 0);
 }
 IOperand const * Factory::createInt16( std::string const & value ) const {
     return new Operand<short>(value, Int16, 0);

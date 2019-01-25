@@ -1,8 +1,10 @@
-#include "Executor.hpp"
+#include "../inc/Executor.hpp"
 
 Executor::Executor(){
     Lexer l = Lexer();
     l.readFromStdin();
+    if (!l.getErrors().empty())
+        throw lexicalError();
     Parser(l.getFile());
     process_file(l.getFile());
 }
@@ -10,17 +12,21 @@ Executor::Executor(){
 Executor::Executor(char *file){
     Lexer l = Lexer();
     l.readFromFile(file);
+    if (!l.getErrors().empty())
+        throw lexicalError();
     Parser(l.getFile());
     process_file(l.getFile());
 }
 
-Executor::~Executor(){
+Executor::~Executor()
+{
     if (!(stack.empty()))
     {
         for (const auto & vec : stack) {
             delete vec;
         }
     }
+//    system("leaks avm");
 }
 
 Executor::Executor(Executor const & rhs){
@@ -28,22 +34,20 @@ Executor::Executor(Executor const & rhs){
 }
 Executor			&Executor::operator=( Executor const &rhs){
     if (this != &rhs)
-    {
         this->stack = rhs.stack;
-    }
     return (*this);
 }
 
 eOperandType Executor::getOperandType(std::string type)
 {
     eOperandType T = Int8;
-    if (type == "Int16")
+    if (type == "int16")
         T = Int16;
-    else if (type == "Int32")
+    else if (type == "int32")
         T = Int32;
-    else if (type == "Float")
+    else if (type == "float")
         T =Float;
-    else if (type == "Double")
+    else if (type == "double")
         T = Double;
     return T;
 }
@@ -83,36 +87,46 @@ void Executor::Push(std::string value, eOperandType type){
 
 void Executor::Pop(){
     if (!(stack.empty()))
+    {
+        IOperand const * a = stack.back();
         stack.pop_back();
+        delete a;
+    }
     else
         throw stackTooSmall();
 }
 
 void Executor::Dump(){
-    if (!stack.empty())
+    if (!(stack.empty()))
     {
-        for(std::vector<IOperand const *>::reverse_iterator i = stack.rbegin(); i != stack.rend(); ++i)
-            std::cout << (*i)->toString() << std::endl;
+        for(std::vector<IOperand const *>::reverse_iterator i = stack.rbegin(); i != stack.rend(); ++i) {
+//            std::cout << (*i)->getPrecision() << std::endl;
+            std::cout << std::setprecision((*i)->getPrecision()) << (*i)->toString() << std::endl;
+        }
     }
     else
         throw stackTooSmall();
 }
 
 void Executor::Assert(std::string value, eOperandType type){
-    IOperand const * a = stack.back();
-    if (value != a->toString() && type != a->getType())
+    if (!(stack.empty()))
+    {
+        IOperand const * a = stack.back();
+        if (value != a->toString() || type != a->getType())
+            throw AssertError();
+    }
+   else
         throw AssertError();
-//    delete a;
 }
 
 void Executor::Add(){
-    if (!stack.empty() || stack.size() < 2)
+    if (stack.size() >= 2)
     {
         IOperand const * a = stack.back();
-        Pop();
+        stack.pop_back();
         IOperand const * b = stack.back();
-        Pop();
-        stack.push_back(*a + *b);
+        stack.pop_back();
+        stack.push_back(*b + *a);
         delete a;
         delete b;
     }
@@ -120,13 +134,13 @@ void Executor::Add(){
         throw stackTooSmall();
 }
 void Executor::Sub(){
-    if (!stack.empty() || stack.size() < 2)
+    if (stack.size() >= 2)
     {
         IOperand const * a = stack.back();
-        Pop();
+        stack.pop_back();
         IOperand const * b = stack.back();
-        Pop();
-        stack.push_back(*a - *b);
+        stack.pop_back();
+        stack.push_back(*b - *a);
         delete a;
         delete b;
     }
@@ -134,13 +148,13 @@ void Executor::Sub(){
         throw stackTooSmall();
 }
 void Executor::Mul(){
-    if (!stack.empty() || stack.size() < 2)
+    if (stack.size() >= 2)
     {
         IOperand const * a = stack.back();
-        Pop();
+        stack.pop_back();
         IOperand const * b = stack.back();
-        Pop();
-        stack.push_back(*a * *b);
+        stack.pop_back();
+        stack.push_back(*b * *a);
         delete a;
         delete b;
     }
@@ -148,13 +162,13 @@ void Executor::Mul(){
         throw stackTooSmall();
 }
 void Executor::Div(){
-    if (!stack.empty() || stack.size() < 2)
+    if (stack.size() >= 2)
     {
         IOperand const * a = stack.back();
-        Pop();
+        stack.pop_back();
         IOperand const * b = stack.back();
-        Pop();
-        stack.push_back(*a / *b);
+        stack.pop_back();
+        stack.push_back(*b / *a);
         delete a;
         delete b;
     }
@@ -162,13 +176,13 @@ void Executor::Div(){
         throw stackTooSmall();
 }
 void Executor::Mod(){
-    if (!stack.empty() || stack.size() < 2)
+    if (stack.size() >= 2)
     {
         IOperand const * a = stack.back();
-        Pop();
+        stack.pop_back();
         IOperand const * b = stack.back();
-        Pop();
-        stack.push_back(*a % *b);
+        stack.pop_back();
+        stack.push_back(*b % *a);
         delete a;
         delete b;
     }
@@ -181,10 +195,9 @@ void Executor::Print(){
     {
         IOperand const * a = stack.back();
         if (a->getType() == Int8)
-            std::cout << a->toString() << std::endl;
+            std::cout << (char)(stoi(a->toString())) << std::endl;
         else
             throw AssertError();
-        delete a;
     }
     else
         throw stackTooSmall();

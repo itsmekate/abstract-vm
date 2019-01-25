@@ -1,8 +1,10 @@
-#include "Parser.hpp"
-#include "Exception.hpp"
+#include "../inc/Parser.hpp"
+#include "../inc/Exception.hpp"
 
 #include <limits.h>
 #include <iostream>
+
+Parser::Parser(){}
 
 Parser::Parser(std::vector<std::map<std::string, std::string>> lexer_result){
     try
@@ -75,6 +77,7 @@ void Parser::checkInt32( std::string const & value ) const {
 void Parser::checkFloat( std::string const & value ) const {
     try
     {
+//        underflow 15
         float i = std::stof(value);
         if (std::numeric_limits<float>::max() < i || i < std::numeric_limits<float>::lowest())
             throw wrongValue();
@@ -86,6 +89,7 @@ void Parser::checkFloat( std::string const & value ) const {
 void Parser::checkDouble( std::string const & value ) const {
     try
     {
+        //        underflow 30
         double i = std::stod(value);
         if (std::numeric_limits<double>::max() < i || i < std::numeric_limits<double>::lowest())
             throw wrongValue();

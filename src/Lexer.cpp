@@ -1,6 +1,6 @@
-#include "Lexer.hpp"
-#include "Exception.hpp"
-
+#include "../inc/Lexer.hpp"
+#include "../inc/Exception.hpp"
+#include <fstream>
 Lexer::Lexer(){
     instrNoValue = (R"(^(pop|dump|add|sub|mul|div|mod|print|exit)\s*([;].*)*)");
     instrValue = (R"(^(push|assert)\s(int8|int16|int32)(\()([\-]?\d+)(\))\s*([;].*)*)");
@@ -11,16 +11,28 @@ Lexer::Lexer(){
 
 Lexer::~Lexer(){}
 
-//Lexer(Lexer const & rhs){
-//
-//}
-//Lexer			&operator=( Lexer const &rhs){
-//
-//}
+Lexer::Lexer(Lexer const & rhs){
+    *this = rhs;
+}
+Lexer			&Lexer::operator=( Lexer const &rhs){
+    if (this != &rhs)
+    {
+        this->file = rhs.file;
+        this->errors = rhs.errors;
+        this->match = rhs.match;
+        this->instrNoValue = rhs.instrNoValue;
+        this->instrValue = rhs.instrValue;
+        this->instrValueDF = rhs.instrValueDF;
+        this->comment = rhs.comment;
+        this->emptyStr = rhs.emptyStr;
+    }
+
+    return (*this);
+}
 
 std::vector<std::map<std::string, std::string>> Lexer::getFile(){ return file;}
 
-//std::vector<std::string> Lexer::getErrors(){ return errors;}
+std::vector<std::string> Lexer::getErrors(){ return errors;}
 
 void Lexer::readFromStdin()
 {
@@ -39,13 +51,13 @@ void Lexer::readFromStdin()
 void Lexer::readFromFile(char *argv)
 {
     std::string input_line;
-    std::ifstream infile;
+    std::ifstream infile(argv);
     int i = 0;
 
-    infile.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
     try
     {
-        infile.open (argv);
+        if (!infile.is_open())
+            throw incorrectInput();
         while(!infile.eof())
         {
             getline(infile, input_line);
@@ -55,7 +67,7 @@ void Lexer::readFromFile(char *argv)
         infile.close();
     }
     catch (std::exception &e) {
-        std::cout << "Exception opening/reading/closing file\n";
+        std::cout << e.what() << std::endl;
     }
 
 }
